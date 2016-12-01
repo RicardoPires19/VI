@@ -9,6 +9,12 @@ body {
   overflow: hidden;
 }
 
+form {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
 .node-label {
   padding: 4px;
   line-height: 1em;
