@@ -2,6 +2,10 @@ var dataset;
 
 d3.json("oscar_winners.json", function (data) {
     dataset = data;
+
+    var w = 500,
+		h = 500;
+
     
     //Options for the Radar chart, other than default
 	var mycfg = {
@@ -15,7 +19,7 @@ d3.json("oscar_winners.json", function (data) {
 	//Call function to draw the Radar chart
 	//Will expect that data is in %'s
 	RadarChart.draw("#radial_chart", data, mycfg);  
-})
+});
 
 /* == Radial Chart ==
 Attributes to show:
@@ -48,10 +52,10 @@ var RadarChart = {
 	 TranslateY: 30,
 	 ExtraWidthX: 100,
 	 ExtraWidthY: 100,
-	 color: d3.scale.category10()
+	 color: d3.scaleOrdinal() //was scheme d3.scale.category10() - still need to change to v4
 	};
 
-//options aka genres - in code source example corresponds to smartphone / tablet
+	//options aka genres - in code source example corresponds to smartphone / tablet
 	if('undefined' !== typeof options){
 	  for(var i in options){
 		if('undefined' !== typeof options[i]){
@@ -72,7 +76,7 @@ var RadarChart = {
 			.attr("width", cfg.w+cfg.ExtraWidthX)
 			.attr("height", cfg.h+cfg.ExtraWidthY)
 			.append("g")
-			.attr("transform", "translate(" + cfg.TranslateX + "," + cfg.TranslateY + ")");
+			.attr("transform", "translate(" + cfg.TranslateX + "," + cfg.TranslateY + ")")
 			;
 
 	var tooltip;
@@ -242,4 +246,5 @@ var RadarChart = {
 			   .style('opacity', 0)
 			   .style('font-family', 'sans-serif')
 			   .style('font-size', '13px');
-  }
+	}
+};
