@@ -1,37 +1,67 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <title>Gross and Profit of Movies and their Genres</title>
-    <link rel="stylesheet" type="text/css" href="parallel.css" />
-  </head>
-  <body>
-  <div id="header">
-    <div class="controls">
-      <strong id="rendered-count"></strong>/<strong id="selected-count"></strong><!--<strong id="data-count"></strong>-->
-      <div class="fillbar"><div id="selected-bar"><div id="rendered-bar">&nbsp;</div></div></div>
-      <span class="settings">
-        <button id="hide-ticks">Hide Ticks</button>
-        <button id="show-ticks" disabled="disabled">Show Ticks</button>
-      </span>
-    </div>
-    <div style="clear:both;"></div>
-  </div>
-  <div id="chart">
-    <canvas id="background"></canvas>
-    <canvas id="foreground"></canvas>
-    <canvas id="highlight"></canvas>
-    <svg></svg>
-  </div>
-  <div id="wrap">
-    <div class="third">
-      <input type="text" id="search" placeholder="Search Movies...">
-      <p id="movies-list">
-      </p>
-    </div>
-  </div>
-  </body>
-  <script src="http://mbostock.github.com/d3/d3.v2.js"></script>
-  <script src="http://underscorejs.org/underscore.js"></script>
-  <script src="movies.js"></script>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Gross and Profit of Movies and their Genres</title>
+<link rel="stylesheet" type="text/css" href="parallel.css" />
+</head>
+<body>
+    <script type='text/javascript' > 
+        window.glob = "1980";
+    </script>
+	<div id="treemap">
+		<script src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+		<script src="layouts.js" charset="utf-8"></script>
+
+		<div id="svgtree">
+			<script>
+				treemap();
+			</script>
+			</svg>
+			<div id="button">
+				<button onclick="changeFilter()">Change</button>
+			</div>
+		</div>
+	</div>
+	<div id="parallel">
+
+		<div id="header">
+			<div class="controls">
+				<strong id="rendered-count"></strong>/<strong id="selected-count"></strong>
+				<!--<strong id="data-count"></strong>-->
+				<div class="fillbar">
+					<div id="selected-bar">
+						<div id="rendered-bar">&nbsp;</div>
+					</div>
+				</div>
+				<span class="settings">
+					<button id="hide-ticks">Hide Ticks</button>
+					<button id="show-ticks" disabled="disabled">Show Ticks</button>
+				</span>
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+		<div id="chart">
+			<canvas id="background"></canvas>
+			<canvas id="foreground"></canvas>
+			<canvas id="highlight"></canvas>
+			<svg id="svg2"></svg>
+		</div>
+		<div id="wrap">
+			<div class="third">
+				<input type="text" id="search" placeholder="Search Movies...">
+				<button id="clear-selection">Clear Selection</button>
+				<p id="movies-list"></p>
+			</div>
+		</div>
+		<script src="http://mbostock.github.com/d3/d3.v2.js"></script>
+		<script src="http://underscorejs.org/underscore.js"></script>
+		<script src="movies.js"></script>
+	</div>
+
+
+</body>
+
+<!-- script V4 -->
+<!-- small multiples -->
 </html>
