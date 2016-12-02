@@ -2,9 +2,6 @@ var budget = "year.budget",
 	world_gross = "year.worldgross",
 	filter = world_gross;
 
-function reload(){
-	
-}
 
 function changeFilter(){
 	if (filter == budget) {
@@ -12,9 +9,8 @@ function changeFilter(){
 	}
 	else
 		filter = budget;
-	reload();
-	console.log(d3.select("#svgtreemap"));
-	d3.select("g").remove(); d3.select("g").remove();
+	d3.select("g").remove();
+	d3.select("g").remove();
 	treemap();
 }
 
@@ -76,7 +72,6 @@ function treemap(){
 		.style("background", function(d) { while(d.depth > 3) d = d.parent; return color(d.id); })
 		.text(function(d) { return d.id.substring(d.id.lastIndexOf(".") + 1).split(/(?=[A-Z][^A-Z])/g).join("\n"); })
 		
-		console.log("e vai mais uma")
 	});
 
 
