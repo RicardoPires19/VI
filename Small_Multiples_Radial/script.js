@@ -111,15 +111,6 @@ var data = 	[
 
 //Data Parse
 var actionMovSel; //actionMoviesSelected
-//data.forEach(selMovies(), extraParams = {paramGenre: "Action", paramTargetArray: actionMovSel})
-
-/*
-function selMovies(movie) {
-	if (movie["genres/0"] == this.paramGenre || movie["genres/1"] == this.paramGenre || movie["genres/2"] == this.paramGenre
-		|| movie["genres/3"] == this.paramGenre || movie["genres/4"] == this.paramGenre || movie["genres/5"] == this.paramGenre)
-	this.paramTargetArray.push(movie);			
-}
-*/
 
 //Input: data - array com filmes selecionados 
 //		 genre - string para indicar o genero a filtrar
@@ -127,11 +118,14 @@ function selMovies(movie) {
 function calcSelMovieStats(data, genre) { //moviesSelected
 	//Filter genre
 	var movSel = [];
-
-	for (i = 0; i = data.length; i++) {
-		if (data[i]["genres/0"] == genre || data[i]["genres/1"] == genre || data[i]["genres/2"] == genre
-			|| data[i]["genres/3"] == genre || data[i]["genres/4"] == genre || data[i]["genres/5"] == genre)
-		movSel.push(movie);			
+	for (i = 0; i < data.length; i++) {
+		if (data[i]["genres/0"] == genre || 
+			data[i]["genres/1"] == genre || 
+			data[i]["genres/2"] == genre ||
+			data[i]["genres/3"] == genre || 
+			data[i]["genres/4"] == genre || 
+			data[i]["genres/5"] == genre)
+		movSel.push(data[i]);			
 	}
 
 	//Initialize
@@ -144,23 +138,27 @@ function calcSelMovieStats(data, genre) { //moviesSelected
 						{axis:"Worldwide Profit (avg)",value:0},
 						{axis:"Total Profit (avg)",value:0}
 					]
-				]
+				];
 
 	//Add
-	for (i = 0; i = movSel.length; i++)
-		for (j = 0; j = nrAxis; j++)
-			stats[j].value += movSel[i][j].value; 
+	for (i = 0; i < movSel.length; i++) {
+		stats[0][0].value += parseFloat(movSel[i]["rating"]); 
+		stats[0][1].value += parseFloat(movSel[i]["votes"]);
+		stats[0][2].value += parseFloat(movSel[i]["ProductionBudget"]);
+		stats[0][3].value += parseFloat(movSel[i]["domesticProfit"]);
+		stats[0][4].value += parseFloat(movSel[i]["worldwideProfit"]);
+		stats[0][5].value += parseFloat(movSel[i]["totalProfit"]);
+	}
 
 	//Divide
-	for (j = 0; j = nrAxis; j++)
-			stats[j].value = stats[j].value / movSel.length; 
+	for (j = 0; j < nrAxis; j++)
+			stats[0][j].value = stats[0][j].value / movSel.length; 
 
 	//Return average :D
 	return stats;
 } 
 
 var d = calcSelMovieStats(data, "Action");
-console.log(d);
 
 //Data
 /*
