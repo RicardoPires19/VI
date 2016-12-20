@@ -55,7 +55,7 @@ var data = 	[
       "votes": "162.56",
       "votes_corrected": "162565",
       "genres/0": "Action",
-      "genres/1": "",
+      "genres/1": "Comedy",
       "genres/2": "",
       "genres/3": "",
       "genres/4": "",
@@ -159,76 +159,37 @@ function calcSelMovieStats(data, genre) { //moviesSelected
 } 
 
 var d = calcSelMovieStats(data, "Action");
+var comedyData = calcSelMovieStats(data, "Comedy");
 
-//Data
-/*
-var d = [
-		  [
-			{axis:"Rating (avg)",value:0.59}, //axis: atributo do genero
-			{axis:"Votes (avg)",value:0.56},
-			{axis:"Production Budget (avg)",value:0.42},
-			{axis:"Domestic Profit (avg)",value:0.14},
-			{axis:"Worldwide Profit (avg)",value:0.11},
-			{axis:"Total Profit (avg)",value:0.05}
-		  ]
-		];
-*/
-/*
-var comedyData = [
-		  [
-			{axis:"Rating (avg)",value:0.59}, //axis: atributo do genero
-			{axis:"Votes (avg)",value:0.56},
-			{axis:"Production Budget (avg)",value:0.42},
-			{axis:"Domestic Profit (avg)",value:0.14},
-			{axis:"Worldwide Profit (avg)",value:0.11},
-			{axis:"Total Profit (avg)",value:0.05},
-		  ]
-		];
-*/
 //Options para cada um dos mini radar charts
-var mycfg = {
+var actionRadarcfg = {
   w: w,
   h: h,
   maxValue: 0.6,
   levels: 6,
   ExtraWidthX: 300,
   TranslateX: 110, //radar center coordinate
-  TranslateY: 30 //radar center coordinate
+  TranslateY: 30, //radar center coordinate
+  title: "Action"
 }
-/*
+
 var comedyRadarCgf = {
   w: w,
   h: h,
   maxValue: 0.6,
   levels: 6,
-  ExtraWidthX: 300
-  TranslateX: 400, //radar center coordinate
-  TranslateY: 30, //radar center coordinate
+  ExtraWidthX: 1000,
+  ExtraWidthY: 1000,
+  TranslateX: 500, //radar center coordinate
+  TranslateY: 80, //radar center coordinate
+  title: "Comedy",
+  showAxisName: false,
+  color: d3.rgb("red")
 }
-*/
+
 
 //Call function to draw the Radar chart
 //Will expect that data is in %'s
-RadarChart.draw("#chart", d, mycfg);
+RadarChart.draw("#chart", d, actionRadarcfg);
+RadarChart.draw("#comedyChart", comedyData, comedyRadarCgf);
 
-//RadarChart.draw("#comedyChart", comedyData, comedyRadarCgf);
-
-////////////////////////////////////////////
-/////////// Initiate legend ////////////////
-////////////////////////////////////////////
-
-var svg = d3.select('#body')
-	.selectAll('svg')
-	.append('svg')
-	.attr("width", w+300)
-	.attr("height", h)
-
-//Create the title for the legend
-var text = svg.append("text")
-	.attr("class", "title")
-	.attr('transform', 'translate(90,0)') 
-	.attr("x", w - 45)
-	.attr("y", 10)
-	.attr("font-size", "12px")
-	.attr("fill", "#404040")
-	.text("Action");	

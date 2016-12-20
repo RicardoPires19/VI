@@ -25,7 +25,9 @@ var RadarChart = {
 	 TranslateY: 30, //radar center coordinate
 	 ExtraWidthX: 100,
 	 ExtraWidthY: 100,
-	 color: d3.scale.category10()
+	 color: "#00a0e4",
+	 title: "Title Goes Here!",
+	 showAxisName: true
 	};
 	
 	if('undefined' !== typeof options){
@@ -52,7 +54,7 @@ var RadarChart = {
 
 	var tooltip;
 	
-	//Circular segments
+	//Circular segments - spider web
 	for(var j=0; j<cfg.levels-1; j++){
 	  var levelFactor = cfg.factor*radius*((j+1)/cfg.levels);
 	  g.selectAll(".levels")
@@ -71,7 +73,7 @@ var RadarChart = {
 	}
 
 	//Text indicating at what % each level is
-	for(var j=0; j<cfg.levels; j++){
+	/*for(var j=0; j<cfg.levels; j++){
 	  var levelFactor = cfg.factor*radius*((j+1)/cfg.levels);
 	  g.selectAll(".levels")
 	   .data([1]) //dummy data
@@ -85,7 +87,7 @@ var RadarChart = {
 	   .attr("transform", "translate(" + (cfg.w/2-levelFactor + cfg.ToRight) + ", " + (cfg.h/2-levelFactor) + ")")
 	   .attr("fill", "#737373")
 	   .text(Format((j+1)*cfg.maxValue/cfg.levels));
-	}
+	}*/
 	
 	series = 0;
 
@@ -103,18 +105,20 @@ var RadarChart = {
 		.attr("class", "line")
 		.style("stroke", "grey")
 		.style("stroke-width", "1px");
-
-	axis.append("text")
-		.attr("class", "legend")
-		.text(function(d){return d})
-		.style("font-family", "sans-serif")
-		.style("font-size", "11px")
-		.attr("text-anchor", "middle")
-		.attr("dy", "1.5em")
-		.attr("transform", function(d, i){return "translate(0, -10)"})
-		.attr("x", function(d, i){return cfg.w/2*(1-cfg.factorLegend*Math.sin(i*cfg.radians/total))-60*Math.sin(i*cfg.radians/total);})
-		.attr("y", function(d, i){return cfg.h/2*(1-Math.cos(i*cfg.radians/total))-20*Math.cos(i*cfg.radians/total);});
-
+	
+	//Texto dos atributos
+	if (cfg.showAxisName == true) 
+		axis.append("text")
+			.attr("class", "legend")
+			.text(function(d){return d})
+			.style("font-family", "sans-serif")
+			.style("font-size", "11px")
+			.attr("text-anchor", "middle")
+			.attr("dy", "1.5em")
+			.attr("transform", function(d, i){return "translate(0, -10)"})
+			.attr("x", function(d, i){return cfg.w/2*(1-cfg.factorLegend*Math.sin(i*cfg.radians/total))-60*Math.sin(i*cfg.radians/total);})
+			.attr("y", function(d, i){return cfg.h/2*(1-Math.cos(i*cfg.radians/total))-20*Math.cos(i*cfg.radians/total);});
+	
  
 	d.forEach(function(y, x){
 	  dataValues = [];
@@ -132,7 +136,7 @@ var RadarChart = {
 					 .append("polygon")
 					 .attr("class", "radar-chart-serie"+series)
 					 .style("stroke-width", "2px")
-					 .style("stroke", cfg.color(series))
+					 .style("stroke", d3.rgb(cfg.color))
 					 .attr("points",function(d) {
 						 var str="";
 						 for(var pti=0;pti<d.length;pti++){
@@ -140,7 +144,7 @@ var RadarChart = {
 						 }
 						 return str;
 					  })
-					 .style("fill", function(j, i){return cfg.color(series)})
+					 .style("fill", function(j, i){return d3.rgb(cfg.color)})
 					 .style("fill-opacity", cfg.opacityArea)
 					 .on('mouseover', function (d){
 										z = "polygon."+d3.select(this).attr("class");
@@ -179,7 +183,8 @@ var RadarChart = {
 		  return cfg.h/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total));
 		})
 		.attr("data-id", function(j){return j.axis})
-		.style("fill", cfg.color(series)).style("fill-opacity", .9)
+		.style("fill", d3.rgb(cfg.color)).style("fill-opacity", .9)
+		//Show data point value on mouseover
 		.on('mouseover', function (d){
 					newX =  parseFloat(d3.select(this).attr('cx')) - 10;
 					newY =  parseFloat(d3.select(this).attr('cy')) - 5;
@@ -199,6 +204,7 @@ var RadarChart = {
 						.transition(200)
 						.style("fill-opacity", .7);
 				  })
+		//Hide data point value on mouseout
 		.on('mouseout', function(){
 					tooltip
 						.transition(200)
@@ -217,5 +223,26 @@ var RadarChart = {
 			   .style('opacity', 0)
 			   .style('font-family', 'sans-serif')
 			   .style('font-size', '13px');
+
+	////////////////////////////////////////////
+	/////////// Initiate legend ////////////////
+	////////////////////////////////////////////
+	var svg = d3.select('#body')
+		.selectAll('svg')
+		.append('svg')
+		.attr("width", w+300)
+		.attr("height", h)
+
+	//Create the title for the legend
+	var text = svg.append("text")
+		.attr("class", "title")
+		.attr('transform', 'translate(90,0)') 
+		.attr("x", cfg.TranslateX - 60)
+		.attr("y", cfg.TranslateY - 15)
+		.attr("font-size", "12px")
+		.attr("fill", "#404040")
+		.text(cfg.title);	
   }
 };
+
+
