@@ -56,7 +56,7 @@ var data = 	[
       "votes_corrected": "162565",
       "genres/0": "Action",
       "genres/1": "Comedy",
-      "genres/2": "",
+      "genres/2": "Adventure",
       "genres/3": "",
       "genres/4": "",
       "genres/5": "",
@@ -76,7 +76,7 @@ var data = 	[
       "votes_corrected": "82648",
       "genres/0": "Comedy",
       "genres/1": "Action",
-      "genres/2": "",
+      "genres/2": "Adventure",
       "genres/3": "",
       "genres/4": "",
       "genres/5": "",
@@ -94,12 +94,12 @@ var data = 	[
       "rating": "7.5",
       "votes": "13.09",
       "votes_corrected": "13087",
-      "genres/0": "Biography",
+      "genres/0": "Adventure",
       "genres/1": "Drama",
       "genres/2": "Music",
       "genres/3": "Musical",
       "genres/4": "Action",
-      "genres/5": "",
+      "genres/5": "Comedy",
       "ProductionBudget": "15000000",
       "DomesticGross": "67182787",
       "WorldwideGross": "67182787",
@@ -158,11 +158,12 @@ function calcSelMovieStats(data, genre) { //moviesSelected
 	return stats;
 } 
 
-var d = calcSelMovieStats(data, "Action");
+var actionData = calcSelMovieStats(data, "Action");
+var adventureData = calcSelMovieStats(data, "Adventure");
 var comedyData = calcSelMovieStats(data, "Comedy");
 
 //Options para cada um dos mini radar charts
-var actionRadarcfg = {
+var actionRadarCfg = {
   w: w,
   h: h,
   maxValue: 0.6,
@@ -170,10 +171,26 @@ var actionRadarcfg = {
   ExtraWidthX: 300,
   TranslateX: 110, //radar center coordinate
   TranslateY: 30, //radar center coordinate
-  title: "Action"
+  title: "Action",
+  htmlID: "#actionChart"
 }
 
-var comedyRadarCgf = {
+var adventureRadarCfg = {
+  w: w,
+  h: h,
+  maxValue: 0.6,
+  levels: 6,
+  ExtraWidthX: 2000,
+  ExtraWidthY: 2000,
+  TranslateX: 800, //radar center coordinate
+  TranslateY: 130, //radar center coordinate
+  title: "Adventure",
+  showAxisName: false,
+  color: d3.rgb("red"),
+  htmlID: "#adventureChart"
+}
+
+var comedyRadarCfg = {
   w: w,
   h: h,
   maxValue: 0.6,
@@ -184,12 +201,144 @@ var comedyRadarCgf = {
   TranslateY: 80, //radar center coordinate
   title: "Comedy",
   showAxisName: false,
-  color: d3.rgb("red")
+  color: d3.rgb("red"),
+  htmlID: "#comedyChart"
+}
+
+var crimeRadarCfg = {
+  w: w,
+  h: h,
+  maxValue: 0.6,
+  levels: 6,
+  ExtraWidthX: 1000,
+  ExtraWidthY: 1000,
+  TranslateX: 500, //radar center coordinate
+  TranslateY: 80, //radar center coordinate
+  title: "Comedy",
+  showAxisName: false,
+  color: d3.rgb("red"),
+  htmlID: "#comedyChart"
+}
+
+var dramaRadarCfg = {
+  w: w,
+  h: h,
+  maxValue: 0.6,
+  levels: 6,
+  ExtraWidthX: 1000,
+  ExtraWidthY: 1000,
+  TranslateX: 500, //radar center coordinate
+  TranslateY: 80, //radar center coordinate
+  title: "Comedy",
+  showAxisName: false,
+  color: d3.rgb("red"),
+  htmlID: "#comedyChart"
+}
+
+var fantasyRadarCfg = {
+  w: w,
+  h: h,
+  maxValue: 0.6,
+  levels: 6,
+  ExtraWidthX: 1000,
+  ExtraWidthY: 1000,
+  TranslateX: 500, //radar center coordinate
+  TranslateY: 80, //radar center coordinate
+  title: "Comedy",
+  showAxisName: false,
+  color: d3.rgb("red"),
+  htmlID: "#comedyChart"
+}
+
+var horrorRadarCfg = {
+  w: w,
+  h: h,
+  maxValue: 0.6,
+  levels: 6,
+  ExtraWidthX: 1000,
+  ExtraWidthY: 1000,
+  TranslateX: 500, //radar center coordinate
+  TranslateY: 80, //radar center coordinate
+  title: "Comedy",
+  showAxisName: false,
+  color: d3.rgb("red"),
+  htmlID: "#comedyChart"
+}
+
+var mysteryRadarCfg = {
+  w: w,
+  h: h,
+  maxValue: 0.6,
+  levels: 6,
+  ExtraWidthX: 1000,
+  ExtraWidthY: 1000,
+  TranslateX: 500, //radar center coordinate
+  TranslateY: 80, //radar center coordinate
+  title: "Comedy",
+  showAxisName: false,
+  color: d3.rgb("red"),
+  htmlID: "#comedyChart"
+}
+
+var romanceRadarCfg = {
+  w: w,
+  h: h,
+  maxValue: 0.6,
+  levels: 6,
+  ExtraWidthX: 1000,
+  ExtraWidthY: 1000,
+  TranslateX: 500, //radar center coordinate
+  TranslateY: 80, //radar center coordinate
+  title: "Comedy",
+  showAxisName: false,
+  color: d3.rgb("red"),
+  htmlID: "#comedyChart"
+}
+
+var scifiRadarCfg = {
+  w: w,
+  h: h,
+  maxValue: 0.6,
+  levels: 6,
+  ExtraWidthX: 1000,
+  ExtraWidthY: 1000,
+  TranslateX: 500, //radar center coordinate
+  TranslateY: 80, //radar center coordinate
+  title: "Comedy",
+  showAxisName: false,
+  color: d3.rgb("red"),
+  htmlID: "#comedyChart"
+}
+
+var thrillerRadarCfg = {
+  w: w,
+  h: h,
+  maxValue: 0.6,
+  levels: 6,
+  ExtraWidthX: 1000,
+  ExtraWidthY: 1000,
+  TranslateX: 500, //radar center coordinate
+  TranslateY: 80, //radar center coordinate
+  title: "Comedy",
+  showAxisName: false,
+  color: d3.rgb("red"),
+  htmlID: "#comedyChart"
 }
 
 
 //Call function to draw the Radar chart
 //Will expect that data is in %'s
-RadarChart.draw("#chart", d, actionRadarcfg);
-RadarChart.draw("#comedyChart", comedyData, comedyRadarCgf);
+RadarChart.draw("#actionChart", actionData, actionRadarCfg);
+RadarChart.draw("#adventureChart", adventureData, adventureRadarCfg);
+RadarChart.draw("#comedyChart", comedyData, comedyRadarCfg);
 
+/*
+crime
+drama
+fantasy
+horror
+mystery
+romance
+sci-fi
+thriller
+*/

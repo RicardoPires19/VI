@@ -27,7 +27,8 @@ var RadarChart = {
 	 ExtraWidthY: 100,
 	 color: "#00a0e4",
 	 title: "Title Goes Here!",
-	 showAxisName: true
+	 showAxisName: true,
+	 htmlID: "#body" 
 	};
 	
 	if('undefined' !== typeof options){
@@ -41,7 +42,7 @@ var RadarChart = {
 	var allAxis = (d[0].map(function(i, j){return i.axis}));
 	var total = allAxis.length;
 	var radius = cfg.factor*Math.min(cfg.w/2, cfg.h/2);
-	var Format = d3.format('%');
+	var Format = d3.format('^');
 	d3.select(id).select("svg").remove();
 	
 	var g = d3.select(id)
@@ -227,19 +228,19 @@ var RadarChart = {
 	////////////////////////////////////////////
 	/////////// Initiate legend ////////////////
 	////////////////////////////////////////////
-	var svg = d3.select('#body')
+	var svg = d3.select(cfg.htmlID)
 		.selectAll('svg')
 		.append('svg')
-		.attr("width", w+300)
-		.attr("height", h)
+		.attr("width", w + cfg.ExtraWidthX)
+		.attr("height", h + cfg.ExtraWidthY)
 
 	//Create the title for the legend
 	var text = svg.append("text")
 		.attr("class", "title")
-		.attr('transform', 'translate(90,0)') 
-		.attr("x", cfg.TranslateX - 60)
+		//.attr('transform', 'translate(90,0)') 
+		.attr("x", cfg.TranslateX + 30)
 		.attr("y", cfg.TranslateY - 15)
-		.attr("font-size", "12px")
+		.attr("font-size", "20px")
 		.attr("fill", "#404040")
 		.text(cfg.title);	
   }
