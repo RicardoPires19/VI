@@ -158,9 +158,40 @@ function calcSelMovieStats(data, genre) { //moviesSelected
 	return stats;
 } 
 
+//Calculate genre statistics to show
 var actionData = calcSelMovieStats(data, "Action");
 var adventureData = calcSelMovieStats(data, "Adventure");
 var comedyData = calcSelMovieStats(data, "Comedy");
+
+/* !!! Tentativa para normalizar escala !!!
+//Calculate max value for each attribute
+var genreStats = [];
+genreStats.push(actionData);
+genreStats.push(adventureData);
+genreStats.push(comedyData);
+
+var genreRatingStats = [];
+var genreVotesStats = [];
+var genreProduBugetStats = [];
+var genreDProfitStats = [];
+var genreTProfitStats = [];
+var genreWProfitStats = [];
+for (i = 0; i < genreStats.length; i++) {
+	genreRatingStats.push(genreStats[i][0][0]);
+	genreVotesStats.push(genreStats[i][0][1]);
+	genreProduBugetStats.push(genreStats[i][0][2]);
+	genreDProfitStats.push(genreStats[i][0][3]);
+	genreTProfitStats.push(genreStats[i][0][4]);
+	genreWProfitStats .push(genreStats[i][0][5]);
+}
+*/
+var maxRating = 0; //d3.max(genreRatingStats); !!! Tentativa para normalizar escala !!!
+var	maxVotes = 0; //d3.max(genreVotesStats);
+var maxProduBudget = 0; //d3.max(genreProduBugetStats);
+var	maxDProfit = 0; //d3.max(genreDProfitStats);
+var	maxTProfit = 0; //d3.max(genreTProfitStats); 
+var	maxWProfit = 0; //d3.max(genreWProfitStats);
+
 
 //Options para cada um dos mini radar charts
 var actionRadarCfg = {
@@ -168,29 +199,20 @@ var actionRadarCfg = {
   h: h,
   maxValue: 0.6,
   levels: 6,
-  ExtraWidthX: 300,
+  ExtraWidthX: 250,
   TranslateX: 110, //radar center coordinate
-  TranslateY: 30, //radar center coordinate
+  TranslateY: 50, //radar center coordinate
   title: "Action",
-  htmlID: "#actionChart"
+  htmlID: "#actionChart",
+  maxRatingVal: maxRating,
+  maxVotesVal: maxVotes,
+  maxProduBudgetVal: maxProduBudget,
+  maxDomProfit: maxDProfit,
+  maxTotalProfit: maxTProfit,
+  maxWorldProfit: maxWProfit
 }
 
 var adventureRadarCfg = {
-  w: w,
-  h: h,
-  maxValue: 0.6,
-  levels: 6,
-  ExtraWidthX: 2000,
-  ExtraWidthY: 2000,
-  TranslateX: 800, //radar center coordinate
-  TranslateY: 130, //radar center coordinate
-  title: "Adventure",
-  showAxisName: false,
-  color: d3.rgb("red"),
-  htmlID: "#adventureChart"
-}
-
-var comedyRadarCfg = {
   w: w,
   h: h,
   maxValue: 0.6,
@@ -199,10 +221,37 @@ var comedyRadarCfg = {
   ExtraWidthY: 1000,
   TranslateX: 500, //radar center coordinate
   TranslateY: 80, //radar center coordinate
+  title: "Adventure",
+  showAxisName: false,
+  color: d3.rgb("red"),
+  htmlID: "#adventureChart",
+  maxRatingVal: maxRating,
+  maxVotesVal: maxVotes,
+  maxProduBudgetVal: maxProduBudget,
+  maxDomProfit: maxDProfit,
+  maxTotalProfit: maxTProfit,
+  maxWorldProfit: maxWProfit
+}
+
+var comedyRadarCfg = {
+  w: w,
+  h: h,
+  maxValue: 0.6,
+  levels: 6,
+  ExtraWidthX: 2000,
+  ExtraWidthY: 2000,
+  TranslateX: 800, //radar center coordinate
+  TranslateY: 130, //radar center coordinate
   title: "Comedy",
   showAxisName: false,
   color: d3.rgb("red"),
-  htmlID: "#comedyChart"
+  htmlID: "#comedyChart",
+  maxRatingVal: maxRating,
+  maxVotesVal: maxVotes,
+  maxProduBudgetVal: maxProduBudget,
+  maxDomProfit: maxDProfit,
+  maxTotalProfit: maxTProfit,
+  maxWorldProfit: maxWProfit  
 }
 
 var crimeRadarCfg = {

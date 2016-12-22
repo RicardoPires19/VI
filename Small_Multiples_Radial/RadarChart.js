@@ -28,7 +28,13 @@ var RadarChart = {
 	 color: "#00a0e4",
 	 title: "Title Goes Here!",
 	 showAxisName: true,
-	 htmlID: "#body" 
+	 htmlID: "#body",  
+	 maxRatingVal: 0,  //!!! Tentativa para normalizar escala !!!
+	 maxVotesVal: 0,
+	 maxProduBudgetVal: 0,
+	 maxDomProfit: 0,
+	 maxTotalProfit: 0, 
+	 maxWorldProfit: 0  
 	};
 	
 	if('undefined' !== typeof options){
@@ -38,9 +44,11 @@ var RadarChart = {
 		}
 	  }
 	}
+	
+	//Determinar valor maximo nos dados - isto tem de ser feito fora do codigo do radar (pq ee preciso comparar generos) e 1 vez por cada eixo
 	cfg.maxValue = Math.max(cfg.maxValue, d3.max(d, function(i){return d3.max(i.map(function(o){return o.value;}))}));
-	var allAxis = (d[0].map(function(i, j){return i.axis}));
-	var total = allAxis.length;
+	var allAxis = (d[0].map(function(i, j){return i.axis})); 
+	var total = allAxis.length; //total - number of axis (attributes)
 	var radius = cfg.factor*Math.min(cfg.w/2, cfg.h/2);
 	var Format = d3.format('^');
 	d3.select(id).select("svg").remove();
@@ -98,6 +106,7 @@ var RadarChart = {
 			.append("g")
 			.attr("class", "axis");
 
+	//Desenhar linhas
 	axis.append("line")
 		.attr("x1", cfg.w/2)
 		.attr("y1", cfg.h/2)
@@ -121,10 +130,28 @@ var RadarChart = {
 			.attr("y", function(d, i){return cfg.h/2*(1-Math.cos(i*cfg.radians/total))-20*Math.cos(i*cfg.radians/total);});
 	
  
-	d.forEach(function(y, x){
+ 	//Desenhar area
+	d.forEach(function(currentAttribute, cMovIndex){
+	  /* !!! Tentativa para normalizar escala !!!	
+	  switch(currentAttribute.axis) {
+	  	case "Rating (avg)":
+	  		cfg.maxValue = cfg.maxRatingVal; break;
+	  	case "Votes (avg)":
+	  		cfg.maxValue = cfg.maxVotesVal; break;
+	  	case "Production Budget (avg)":
+	  		cfg.maxValue = cfg.maxProduBudgetVal; break;
+	  	case "Domestic Profit (avg)":
+	  		cfg.maxValue = cfg.maxDomProfit; break;
+	  	case "Worldwide Profit (avg)":
+	  		cfg.maxValue = cfg.maxWorldProfit; break;
+	  	case "Total Profit (avg)":
+	  		cfg.maxValue = cfg.maxTotalProfit; break;
+	  }
+	  */
+
 	  dataValues = [];
 	  g.selectAll(".nodes")
-		.data(y, function(j, i){
+		.data(currentAttribute, function(j, i){
 		  dataValues.push([
 			cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total)), 
 			cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total))
@@ -166,7 +193,26 @@ var RadarChart = {
 	series=0;
 
 
+	//Desenhar pontos
 	d.forEach(function(y, x){
+	  
+	  /* !!! Tentativa para normalizar escala !!!
+	  switch(currentAttribute.axis) {
+	  	case "Rating (avg)":
+	  		cfg.maxValue = cfg.maxRatingVal; break;
+	  	case "Votes (avg)":
+	  		cfg.maxValue = cfg.maxVotesVal; break;
+	  	case "Production Budget (avg)":
+	  		cfg.maxValue = cfg.maxProduBudgetVal; break;
+	  	case "Domestic Profit (avg)":
+	  		cfg.maxValue = cfg.maxDomProfit; break;
+	  	case "Worldwide Profit (avg)":
+	  		cfg.maxValue = cfg.maxWorldProfit; break;
+	  	case "Total Profit (avg)":
+	  		cfg.maxValue = cfg.maxTotalProfit; break;
+	  }
+	  */
+	  
 	  g.selectAll(".nodes")
 		.data(y).enter()
 		.append("svg:circle")
@@ -226,7 +272,7 @@ var RadarChart = {
 			   .style('font-size', '13px');
 
 	////////////////////////////////////////////
-	/////////// Initiate legend ////////////////
+	/////////// Radar Title ////////////////////
 	////////////////////////////////////////////
 	var svg = d3.select(cfg.htmlID)
 		.selectAll('svg')
@@ -234,7 +280,6 @@ var RadarChart = {
 		.attr("width", w + cfg.ExtraWidthX)
 		.attr("height", h + cfg.ExtraWidthY)
 
-	//Create the title for the legend
 	var text = svg.append("text")
 		.attr("class", "title")
 		//.attr('transform', 'translate(90,0)') 
