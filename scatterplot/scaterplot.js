@@ -20,8 +20,8 @@ d3.json("movies_gross.json", function (data) {
 
 function gen_vis(){
 
-	var w = 600;
-	var h = 600;
+	var w = 800;
+	var h = 800;
 	var padding = 30;
 	var highestB = Math.max.apply(Math,dataset.map(function(o){return o.ProductionBudget;}))
 	var highestG = Math.max.apply(Math,dataset.map(function(o){return o.WorldwideGross;}))
@@ -49,14 +49,14 @@ function gen_vis(){
 	var bar_w = 15; 
 	var xaxis = d3.axisBottom()
 	.scale(d3.scaleLog().domain([0.5, highestB/1000000])
-	.range([padding,w-padding]))
+	.range([padding+bar_w/2,w-padding-bar_w/2]))
 	.tickFormat(d3.format("d"))
 	.ticks(dataset.length/8);
 	
 	
 	var yaxis = d3.axisLeft()
 	.scale(d3.scaleLog().domain([highestG/1000000, 0.5])
-	.range([padding,w-padding]))
+	.range([padding+bar_w/2,w-padding-bar_w/2]))
 	.tickFormat(d3.format("d"))
 	.ticks(dataset.length/8);
 
